@@ -32,7 +32,15 @@ public class OrderAggregate {
     public OrderAggregate() {}
 
     @CommandHandler
-    public OrderAggregate(OrderCommand command) {}
+    public OrderAggregate(OrderCommand command) {
+        OrderPlacedEvent event = new OrderPlacedEvent();
+        BeanUtils.copyProperties(command, event);
+
+        event.setOrderId(createUUID());
+
+        apply(event);
+
+    }
 
     private String createUUID() {
         return UUID.randomUUID().toString();

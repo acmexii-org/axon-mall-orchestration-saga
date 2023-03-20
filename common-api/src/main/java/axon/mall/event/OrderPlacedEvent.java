@@ -7,5 +7,5 @@ import lombok.ToString;
 @ToString
 public class OrderPlacedEvent {
 
-    private Long id;
+    private String id;
 }
