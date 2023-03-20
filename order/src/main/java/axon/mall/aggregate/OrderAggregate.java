@@ -32,7 +32,15 @@ public class OrderAggregate {
     public OrderAggregate() {}
 
     @CommandHandler
-    public OrderAggregate(OrderCommand command) {}
+    public OrderAggregate(OrderCommand command) {
+        OrderPlacedEvent event = new OrderPlacedEvent();
+        BeanUtils.copyProperties(command, event);
+
+        //TODO: check key generation is properly done
+        if (event.getOrderId() == null) event.setOrderId(createUUID());
+
+        apply(event);
+    }
 
     private String createUUID() {
         return UUID.randomUUID().toString();
@@ -40,6 +48,7 @@ public class OrderAggregate {
 
     @EventSourcingHandler
     public void on(OrderPlacedEvent event) {
+        BeanUtils.copyProperties(event, this);
         //TODO: business logic here
 
     }

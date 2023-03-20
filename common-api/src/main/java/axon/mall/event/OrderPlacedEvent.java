@@ -7,5 +7,10 @@ import lombok.ToString;
 @ToString
 public class OrderPlacedEvent {
 
-    private Long id;
+    private String orderId;
+    private String productName;
+    private String productId;
+    private String status;
+    private Integer qty;
+    private String userId;
 }
