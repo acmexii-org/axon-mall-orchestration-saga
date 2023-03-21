@@ -50,3 +50,4 @@ public class OrderStatusCQRSHandlerReusingAggregate {
         queryUpdateEmitter.emit(OrderStatusQuery.class, query -> true, entity);
     }
 }
+
