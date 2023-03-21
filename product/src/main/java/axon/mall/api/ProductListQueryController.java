@@ -92,6 +92,12 @@ public class ProductListQueryController {
 
         model.add(
             Link
+                .of("/products/" + resource.getProductId() + "/decreasestock")
+                .withRel("decreasestock")
+        );
+
+        model.add(
+            Link
                 .of("/products/" + resource.getProductId() + "/events")
                 .withRel("events")
         );

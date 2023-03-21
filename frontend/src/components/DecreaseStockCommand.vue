@@ -6,6 +6,9 @@
         </v-card-title>
 
         <v-card-text>
+            <String label="ProductName" v-model="value.productName" :editMode="editMode"/>
+            <String label="ProductNo" v-model="value.productNo" :editMode="editMode"/>
+            <Number label="Stock" v-model="value.stock" :editMode="editMode"/>
         </v-card-text>
 
         <v-card-actions>
@@ -41,6 +44,9 @@
             value: {},
         }),
         created() {
+            this.value.productName = '';
+            this.value.productNo = '';
+            this.value.stock = 0;
         },
         watch: {
         },
