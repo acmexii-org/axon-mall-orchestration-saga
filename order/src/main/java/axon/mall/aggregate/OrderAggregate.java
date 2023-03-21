@@ -42,6 +42,14 @@ public class OrderAggregate {
         apply(event);
     }
 
+    @CommandHandler
+    public void handle(UpdateStatusCommand command) {
+        OrderCompletedEvent event = new OrderCompletedEvent();
+        BeanUtils.copyProperties(command, event);
+
+        apply(event);
+    }
+
     private String createUUID() {
         return UUID.randomUUID().toString();
     }
@@ -50,5 +58,11 @@ public class OrderAggregate {
     public void on(OrderPlacedEvent event) {
         BeanUtils.copyProperties(event, this);
         setStatus("OrderPlaced");
+    }
+
+    @EventSourcingHandler
+    public void on(OrderCompletedEvent event) {
+        //TODO: business logic here
+
     }
 }

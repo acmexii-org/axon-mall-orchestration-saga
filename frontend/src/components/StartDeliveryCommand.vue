@@ -2,11 +2,16 @@
 
     <v-card outlined>
         <v-card-title>
-            DecreaseStock
+            StartDelivery
         </v-card-title>
 
         <v-card-text>
-            <Number label="Stock" v-model="value.stock" :editMode="editMode"/>
+            <String label="UserId" v-model="value.userId" :editMode="editMode"/>
+            <String label="Address" v-model="value.address" :editMode="editMode"/>
+            <String label="OrderId" v-model="value.orderId" :editMode="editMode"/>
+            <String label="ProductId" v-model="value.productId" :editMode="editMode"/>
+            <Number label="Qty" v-model="value.qty" :editMode="editMode"/>
+            <String label="Status" v-model="value.status" :editMode="editMode"/>
         </v-card-text>
 
         <v-card-actions>
@@ -14,9 +19,9 @@
             <v-btn
                     color="deep-purple lighten-2"
                     text
-                    @click="decreaseStock"
+                    @click="startDelivery"
             >
-                DecreaseStock
+                StartDelivery
             </v-btn>
             
             <v-btn
@@ -34,7 +39,7 @@
 <script>
    
     export default {
-        name: 'DecreaseStockCommand',
+        name: 'StartDeliveryCommand',
         components:{},
         props: {},
         data: () => ({
@@ -42,13 +47,18 @@
             value: {},
         }),
         created() {
-            this.value.stock = 0;
+            this.value.userId = '';
+            this.value.address = '';
+            this.value.orderId = '';
+            this.value.productId = '';
+            this.value.qty = 0;
+            this.value.status = '';
         },
         watch: {
         },
         methods: {
-            decreaseStock() {
-                this.$emit('decreaseStock', this.value);
+            startDelivery() {
+                this.$emit('startDelivery', this.value);
             },
             close() {
                 this.$emit('closeDialog');

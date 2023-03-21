@@ -25,6 +25,10 @@ mvn clean spring-boot:run
 cd product
 mvn clean spring-boot:run
 
+# new terminal
+cd delivery
+mvn clean spring-boot:run
+
 ```
 
 - Run API gateway
@@ -53,6 +57,10 @@ Head to http://localhost:8088 with a web browser
 ```
  http :8088/products productId="productId" productName="productName" stock="stock" 
 ```
+- delivery
+```
+ http :8088/deliveries deliveryId="deliveryId" userId="userId" address="address" orderId="orderId" productId="productId" qty="qty" status="status" 
+```
 
 ## Test RSocket APIs
 
@@ -65,5 +73,7 @@ wget -O rsc.jar https://github.com/making/rsc/releases/download/0.4.2/rsc-0.4.2.
 java -jar rsc.jar --stream  --route orders.all ws://localhost:8088/rsocket/orders
 
 java -jar rsc.jar --stream  --route products.all ws://localhost:8088/rsocket/products
+
+java -jar rsc.jar --stream  --route deliveries.all ws://localhost:8088/rsocket/deliveries
 
 ```

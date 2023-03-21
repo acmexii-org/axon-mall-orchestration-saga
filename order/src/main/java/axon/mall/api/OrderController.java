@@ -51,6 +51,20 @@ public class OrderController {
             });
     }
 
+    @RequestMapping(
+        value = "/orders/{id}/updatestatus",
+        method = RequestMethod.PUT,
+        produces = "application/json;charset=UTF-8"
+    )
+    public CompletableFuture updateStatus(@PathVariable("id") String id)
+        throws Exception {
+        System.out.println("##### /order/updateStatus  called #####");
+        UpdateStatusCommand updateStatusCommand = new UpdateStatusCommand();
+        updateStatusCommand.setOrderId(id);
+        // send command
+        return commandGateway.send(updateStatusCommand);
+    }
+
     @Autowired
     EventStore eventStore;
 
@@ -68,6 +82,12 @@ public class OrderController {
         EntityModel<OrderAggregate> model = EntityModel.of(resource);
 
         model.add(Link.of("/orders/" + resource.getOrderId()).withSelfRel());
+        model.add(
+            Link
+                .of("/orders/" + resource.getOrderId() + "/updatestatus")
+                .withRel("updatestatus")
+        );
+
         model.add(
             Link
                 .of("/orders/" + resource.getOrderId() + "/events")

@@ -86,6 +86,12 @@ public class OrderStatusQueryController {
 
         model.add(
             Link
+                .of("/orders/" + resource.getOrderId() + "/updatestatus")
+                .withRel("updatestatus")
+        );
+
+        model.add(
+            Link
                 .of("/orders/" + resource.getOrderId() + "/events")
                 .withRel("events")
         );
