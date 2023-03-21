@@ -10,19 +10,20 @@
         </template>
 
         <v-card-title v-if="value._links">
-            Order # {{value._links.self.href.split("/")[value._links.self.href.split("/").length - 1]}}
+            Delivery # {{value._links.self.href.split("/")[value._links.self.href.split("/").length - 1]}}
         </v-card-title >
         <v-card-title v-else>
-            Order
+            Delivery
         </v-card-title >
 
         <v-card-text>
-            <String label="OrderId" v-model="value.orderId" :editMode="editMode"/>
-            <String label="ProductName" v-model="value.productName" :editMode="editMode"/>
-            <String label="ProductId" v-model="value.productId" :editMode="editMode"/>
-            <String label="Status" v-model="value.status" :editMode="editMode"/>
-            <Number label="Qty" v-model="value.qty" :editMode="editMode"/>
+            <String label="DeliveryId" v-model="value.deliveryId" :editMode="editMode"/>
             <String label="UserId" v-model="value.userId" :editMode="editMode"/>
+            <String label="Address" v-model="value.address" :editMode="editMode"/>
+            <String label="OrderId" v-model="value.orderId" :editMode="editMode"/>
+            <String label="ProductId" v-model="value.productId" :editMode="editMode"/>
+            <Number label="Qty" v-model="value.qty" :editMode="editMode"/>
+            <String label="Status" v-model="value.status" :editMode="editMode"/>
 
             <EventViewer
                 v-if="value._links && value._links.events"
@@ -47,7 +48,7 @@
                     @click="save"
                     v-else
             >
-                Order
+                Save
             </v-btn>
             <v-btn
                     color="deep-purple lighten-2"
@@ -72,10 +73,16 @@
                     v-if="!editMode"
                     color="deep-purple lighten-2"
                     text
-                    @click="updateStatus"
+                    @click="openStartDelivery"
             >
-                UpdateStatus
+                StartDelivery
             </v-btn>
+            <v-dialog v-model="startDeliveryDiagram" width="500">
+                <StartDeliveryCommand
+                        @closeDialog="closeStartDelivery"
+                        @startDelivery="startDelivery"
+                ></StartDeliveryCommand>
+            </v-dialog>
         </v-card-actions>
 
         <v-snackbar
@@ -103,7 +110,7 @@
 
 
     export default {
-        name: 'Order',
+        name: 'Delivery',
         components:{
         },
         props: {
@@ -118,6 +125,7 @@
                 timeout: 5000,
                 text: ''
             },
+            startDeliveryDiagram: false,
         }),
         created(){
             if(this.isNew) return;
@@ -125,7 +133,7 @@
             var websocketUrl = new URL(window.location.href);
 
             websocketUrl.protocol = "wss";
-            websocketUrl.pathname = "/rsocket/orders";
+            websocketUrl.pathname = "/rsocket/deliveries";
             websocketUrl.hash = "";
             
             var me = this;
@@ -156,7 +164,7 @@
                 let requestedMsg = 10;
 
                 // console.log("connected to rsocket"); // debug
-                const endpoint = "orders."+ me.value.orderId +".get"
+                const endpoint = "deliveries."+ me.value.deliveryId +".get"
                 socket.requestStream({
                     data: {},
                     metadata: String.fromCharCode(endpoint.length) + endpoint
@@ -225,7 +233,7 @@
 
                     if(!this.offline) {
                         if(this.isNew) {
-                            temp = await axios.post(axios.fixUrl('/orders'), this.value)
+                            temp = await axios.post(axios.fixUrl('/deliveries'), this.value)
                         } else {
                             temp = await axios.put(axios.fixUrl(this.value._links.self.href), this.value)
                         }
@@ -282,16 +290,18 @@
             change(){
                 this.$emit('input', this.value);
             },
-            async updateStatus() {
+            async startDelivery() {
                 try {
-                    if(!this.offline) {
-                        var temp = await axios.put(axios.fixUrl(this.value._links['updatestatus'].href))
-                        for(var k in temp.data) {
-                            this.value[k]=temp.data[k];
-                        }
+                    if(!this.offline){
+                        var temp = await axios.post(axios.fixUrl(this.value._links[''].href))
+                        for(var k in temp.data) this.value[k]=temp.data[k];
                     }
 
                     this.editMode = false;
+                    
+                    this.$emit('input', this.value);
+                    this.$emit('delete', this.value);
+                
                 } catch(e) {
                     this.snackbar.status = true
                     if(e.response && e.response.data.message) {

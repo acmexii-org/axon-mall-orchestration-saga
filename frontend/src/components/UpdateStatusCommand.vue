@@ -2,11 +2,10 @@
 
     <v-card outlined>
         <v-card-title>
-            DecreaseStock
+            UpdateStatus
         </v-card-title>
 
         <v-card-text>
-            <Number label="Stock" v-model="value.stock" :editMode="editMode"/>
         </v-card-text>
 
         <v-card-actions>
@@ -14,9 +13,9 @@
             <v-btn
                     color="deep-purple lighten-2"
                     text
-                    @click="decreaseStock"
+                    @click="updateStatus"
             >
-                DecreaseStock
+                UpdateStatus
             </v-btn>
             
             <v-btn
@@ -34,7 +33,7 @@
 <script>
    
     export default {
-        name: 'DecreaseStockCommand',
+        name: 'UpdateStatusCommand',
         components:{},
         props: {},
         data: () => ({
@@ -42,13 +41,12 @@
             value: {},
         }),
         created() {
-            this.value.stock = 0;
         },
         watch: {
         },
         methods: {
-            decreaseStock() {
-                this.$emit('decreaseStock', this.value);
+            updateStatus() {
+                this.$emit('updateStatus', this.value);
             },
             close() {
                 this.$emit('closeDialog');

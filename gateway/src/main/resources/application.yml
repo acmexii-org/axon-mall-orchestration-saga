@@ -27,6 +27,15 @@ spring:
           predicates:
             - Path=/rsocket/products
 
+        - id: delivery
+          uri: http://localhost:8083
+          predicates:
+            - Path=/deliveries/**, 
+        - id: delivery_websocket
+          uri: http://localhost:7083
+          predicates:
+            - Path=/rsocket/deliveries
+
         
         - id: frontend
           uri: http://localhost:8080
@@ -60,6 +69,10 @@ spring:
           uri: http://product:8080
           predicates:
             - Path=/products/**, 
+        - id: delivery
+          uri: http://delivery:8080
+          predicates:
+            - Path=/deliveries/**, 
         - id: frontend
           uri: http://frontend:8080
           predicates:

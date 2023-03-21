@@ -21,4 +21,16 @@ public class PolicyHandler {
 
     @Autowired
     CommandGateway commandGateway;
+
+    @EventHandler
+    //@DisallowReplay
+    public void wheneverDeliveryStarted_UpdateStatus(
+        DeliveryStartedEvent deliveryStarted
+    ) {
+        System.out.println(deliveryStarted.toString());
+
+        UpdateStatusCommand command = new UpdateStatusCommand();
+        //TODO: mapping attributes (anti-corruption)
+        commandGateway.send(command);
+    }
 }

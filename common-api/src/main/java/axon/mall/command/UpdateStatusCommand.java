@@ -7,10 +7,8 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 @ToString
 @Data
-public class DecreaseStockCommand {
+public class UpdateStatusCommand {
 
     @TargetAggregateIdentifier
-    private String productId;
-
-    private Integer stock;
+    private String orderId;
 }
