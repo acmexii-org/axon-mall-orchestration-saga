@@ -49,7 +49,6 @@ public class OrderAggregate {
     @EventSourcingHandler
     public void on(OrderPlacedEvent event) {
         BeanUtils.copyProperties(event, this);
-        //TODO: business logic here
-
+        setStatus("OrderPlaced");
     }
 }

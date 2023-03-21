@@ -14,10 +14,7 @@ public class ProductReadModel {
 
     @Id
     private String productId;
-
     private String productName;
-
     private String productNo;
-
     private Integer stock;
 }
