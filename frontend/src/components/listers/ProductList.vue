@@ -12,13 +12,11 @@
                             
                             
                             
-                            
                         </v-list-item-title>
 
                         <v-list-item-subtitle style="font-size:25px; font-weight:700;">
                             [ ProductId :  {{data.productId }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             [ ProductName :  {{data.productName }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            [ ProductNo :  {{data.productNo }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             [ Stock :  {{data.stock }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </v-list-item-subtitle>
 
@@ -103,7 +101,6 @@
             this.newValue = {
                 'productId': '',
                 'productName': '',
-                'productNo': '',
                 'stock': 0,
             }
         },

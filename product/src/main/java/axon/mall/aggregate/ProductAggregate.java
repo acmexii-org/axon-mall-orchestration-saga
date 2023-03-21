@@ -24,7 +24,6 @@ public class ProductAggregate {
     private String productId;
 
     private String productName;
-    private String productNo;
     private Integer stock;
 
     public ProductAggregate() {}
@@ -36,6 +35,9 @@ public class ProductAggregate {
 
         apply(event);
     }
+
+    @CommandHandler
+    public ProductAggregate(RegisterCommand command) {}
 
     private String createUUID() {
         return UUID.randomUUID().toString();

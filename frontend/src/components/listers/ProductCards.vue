@@ -86,7 +86,6 @@
                 me.newValue = {
                     'productId': '',
                     'productName': '',
-                    'productNo': '',
                     'stock': 0,
                 }
             },

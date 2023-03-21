@@ -68,7 +68,6 @@
                 [
                     { text: "productId", value: "productId" },
                     { text: "productName", value: "productName" },
-                    { text: "productNo", value: "productNo" },
                     { text: "stock", value: "stock" },
                 ],
             product : [],
@@ -89,7 +88,6 @@
             this.newValue = {
                 'productId': '',
                 'productName': '',
-                'productNo': '',
                 'stock': 0,
             }
         },
