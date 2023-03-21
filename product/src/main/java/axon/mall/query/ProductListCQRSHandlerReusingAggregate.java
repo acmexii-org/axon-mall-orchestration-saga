@@ -57,4 +57,18 @@ public class ProductListCQRSHandlerReusingAggregate {
                 );
             });
     }
+
+    @EventHandler
+    public void whenProductRegistered_then_CREATE(ProductRegisteredEvent event)
+        throws Exception {
+        ProductReadModel entity = new ProductReadModel();
+        ProductAggregate aggregate = new ProductAggregate();
+        aggregate.on(event);
+
+        BeanUtils.copyProperties(aggregate, entity);
+
+        repository.save(entity);
+
+        queryUpdateEmitter.emit(ProductListQuery.class, query -> true, entity);
+    }
 }

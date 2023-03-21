@@ -37,7 +37,15 @@ public class ProductAggregate {
     }
 
     @CommandHandler
-    public ProductAggregate(RegisterCommand command) {}
+    public ProductAggregate(RegisterCommand command) {
+        ProductRegisteredEvent event = new ProductRegisteredEvent();
+        BeanUtils.copyProperties(command, event);
+
+        //TODO: check key generation is properly done
+        if (event.getProductId() == null) event.setProductId(createUUID());
+
+        apply(event);
+    }
 
     private String createUUID() {
         return UUID.randomUUID().toString();
@@ -45,6 +53,13 @@ public class ProductAggregate {
 
     @EventSourcingHandler
     public void on(StockDecreasedEvent event) {
+        //TODO: business logic here
+
+    }
+
+    @EventSourcingHandler
+    public void on(ProductRegisteredEvent event) {
+        BeanUtils.copyProperties(event, this);
         //TODO: business logic here
 
     }

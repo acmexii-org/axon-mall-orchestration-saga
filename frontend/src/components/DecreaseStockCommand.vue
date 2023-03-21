@@ -7,7 +7,6 @@
 
         <v-card-text>
             <Number label="Qty" v-model="value.qty" :editMode="editMode"/>
-            <String label="ProductId" v-model="value.productId" :editMode="editMode"/>
         </v-card-text>
 
         <v-card-actions>
@@ -44,7 +43,6 @@
         }),
         created() {
             this.value.qty = 0;
-            this.value.productId = '';
         },
         watch: {
         },
