@@ -24,15 +24,14 @@ public class PolicyHandler {
 
     @EventHandler
     //@DisallowReplay
-    public void wheneverOrderPlaced_DecreaseStock(
-        OrderPlacedEvent orderPlaced
-    ) {
+    public void wheneverOrderPlaced_DecreaseStock(OrderPlacedEvent orderPlaced) {
         System.out.println(orderPlaced.toString());
 
         DecreaseStockCommand command = new DecreaseStockCommand();
         //TODO: mapping attributes (anti-corruption)
         command.setProductId(orderPlaced.getProductId());
-        command.setQty(orderPlaced.getQty());
+        command.setStock(orderPlaced.getQty());
+        
         commandGateway.send(command);
     }
 }
