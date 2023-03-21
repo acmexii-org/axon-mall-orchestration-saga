@@ -33,12 +33,15 @@ public class OrderStatusQueryController {
         this.reactorQueryGateway = reactorQueryGateway;
     }
 
-    @GetMapping("/orderStatuses")
+    @GetMapping("/orders")
     public CompletableFuture findAll(OrderStatusQuery query) {
         return queryGateway
-            .query(query, ResponseTypes.multipleInstancesOf(OrderStatus.class))
+            .query(
+                query,
+                ResponseTypes.multipleInstancesOf(OrderReadModel.class)
+            )
             .thenApply(resources -> {
-                List modelList = new ArrayList<EntityModel<OrderStatus>>();
+                List modelList = new ArrayList<EntityModel<OrderReadModel>>();
 
                 resources
                     .stream()
@@ -46,7 +49,7 @@ public class OrderStatusQueryController {
                         modelList.add(hateoas(resource));
                     });
 
-                CollectionModel<OrderStatus> model = CollectionModel.of(
+                CollectionModel<OrderReadModel> model = CollectionModel.of(
                     modelList
                 );
 
@@ -54,13 +57,16 @@ public class OrderStatusQueryController {
             });
     }
 
-    @GetMapping("/orderStatuses/{id}")
-    public CompletableFuture findById(@PathVariable("id") Long id) {
+    @GetMapping("/orders/{id}")
+    public CompletableFuture findById(@PathVariable("id") String id) {
         OrderStatusSingleQuery query = new OrderStatusSingleQuery();
-        query.setId(id);
+        query.setOrderId(id);
 
         return queryGateway
-            .query(query, ResponseTypes.optionalInstanceOf(OrderStatus.class))
+            .query(
+                query,
+                ResponseTypes.optionalInstanceOf(OrderReadModel.class)
+            )
             .thenApply(resource -> {
                 if (!resource.isPresent()) {
                     return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -73,27 +79,38 @@ public class OrderStatusQueryController {
             });
     }
 
-    EntityModel<OrderStatus> hateoas(OrderStatus resource) {
-        EntityModel<OrderStatus> model = EntityModel.of(resource);
+    EntityModel<OrderReadModel> hateoas(OrderReadModel resource) {
+        EntityModel<OrderReadModel> model = EntityModel.of(resource);
 
-        model.add(Link.of("/orderStatuses/" + resource.getId()).withSelfRel());
+        model.add(Link.of("/orders/" + resource.getOrderId()).withSelfRel());
+
+        model.add(
+            Link
+                .of("/orders/" + resource.getOrderId() + "/events")
+                .withRel("events")
+        );
 
         return model;
     }
 
-    @MessageMapping("orderStatuses.all")
-    public Flux<OrderStatus> subscribeAll() {
+    @MessageMapping("orders.all")
+    public Flux<OrderReadModel> subscribeAll() {
         return reactorQueryGateway.subscriptionQueryMany(
             new OrderStatusQuery(),
-            OrderStatus.class
+            OrderReadModel.class
         );
     }
 
-    @MessageMapping("orderStatuses.{id}.get")
-    public Flux<OrderStatus> subscribeSingle(@DestinationVariable Long id) {
+    @MessageMapping("orders.{id}.get")
+    public Flux<OrderReadModel> subscribeSingle(
+        @DestinationVariable String id
+    ) {
         OrderStatusSingleQuery query = new OrderStatusSingleQuery();
-        query.setId(id);
+        query.setOrderId(id);
 
-        return reactorQueryGateway.subscriptionQuery(query, OrderStatus.class);
+        return reactorQueryGateway.subscriptionQuery(
+            query,
+            OrderReadModel.class
+        );
     }
 }
