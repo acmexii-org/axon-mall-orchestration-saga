@@ -23,7 +23,6 @@ import reactor.core.publisher.Flux;
 public class OrderStatusQueryController {
 
     private final QueryGateway queryGateway;
-
     private final ReactorQueryGateway reactorQueryGateway;
 
     public OrderStatusQueryController(
@@ -67,10 +66,7 @@ public class OrderStatusQueryController {
                     return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
                 }
 
-                return new ResponseEntity<>(
-                    hateoas(resource.get()),
-                    HttpStatus.OK
-                );
+                return new ResponseEntity<>(hateoas(resource.get()), HttpStatus.OK);
             })
             .exceptionally(ex -> {
                 throw new RuntimeException(ex);

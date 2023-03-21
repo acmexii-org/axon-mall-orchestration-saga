@@ -29,10 +29,7 @@ public class OrderController {
     private final CommandGateway commandGateway;
     private final QueryGateway queryGateway;
 
-    public OrderController(
-        CommandGateway commandGateway,
-        QueryGateway queryGateway
-    ) {
+    public OrderController(CommandGateway commandGateway, QueryGateway queryGateway) {
         this.commandGateway = commandGateway;
         this.queryGateway = queryGateway;
     }
@@ -48,7 +45,6 @@ public class OrderController {
             .thenApply(id -> {
                 OrderAggregate resource = new OrderAggregate();
                 BeanUtils.copyProperties(orderCommand, resource);
-
                 resource.setOrderId((String) id);
 
                 return new ResponseEntity<>(hateoas(resource), HttpStatus.OK);
@@ -72,13 +68,11 @@ public class OrderController {
         EntityModel<OrderAggregate> model = EntityModel.of(resource);
 
         model.add(Link.of("/orders/" + resource.getOrderId()).withSelfRel());
-
         model.add(
             Link
                 .of("/orders/" + resource.getOrderId() + "/events")
                 .withRel("events")
         );
-
         return model;
     }
 }
