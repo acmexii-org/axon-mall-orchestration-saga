@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class DeliveryListSingleQuery {
 
-    private Long id;
+    private String deliveryId;
 }

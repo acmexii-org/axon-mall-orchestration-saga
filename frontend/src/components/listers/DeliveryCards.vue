@@ -3,6 +3,7 @@
 
 
 
+            <DeliveryListQuery @search="search"></DeliveryListQuery>
 
 
         <h1 style = "margin-left:4.5%; margin-top:-10px;">Delivery</h1>
