@@ -37,23 +37,20 @@ public class ProductController {
         this.queryGateway = queryGateway;
     }
 
-    @RequestMapping(value = "/products", method = RequestMethod.PATCH)
+    @RequestMapping(
+        value = "/products/{id}/decreasestock",
+        method = RequestMethod.PUT,
+        produces = "application/json;charset=UTF-8"
+    )
     public CompletableFuture decreaseStock(
+        @PathVariable("id") String id,
         @RequestBody DecreaseStockCommand decreaseStockCommand
     ) throws Exception {
         System.out.println("##### /product/decreaseStock  called #####");
 
+        decreaseStockCommand.setProductId(id);
         // send command
-        return commandGateway
-            .send(decreaseStockCommand)
-            .thenApply(id -> {
-                ProductAggregate resource = new ProductAggregate();
-                BeanUtils.copyProperties(decreaseStockCommand, resource);
-
-                resource.setProductId((String) id);
-
-                return new ResponseEntity<>(hateoas(resource), HttpStatus.OK);
-            });
+        return commandGateway.send(decreaseStockCommand);
     }
 
     @Autowired
@@ -74,6 +71,12 @@ public class ProductController {
 
         model.add(
             Link.of("/products/" + resource.getProductId()).withSelfRel()
+        );
+
+        model.add(
+            Link
+                .of("/products/" + resource.getProductId() + "/decreasestock")
+                .withRel("decreasestock")
         );
 
         model.add(

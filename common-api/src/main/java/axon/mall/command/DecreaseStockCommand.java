@@ -11,4 +11,8 @@ public class DecreaseStockCommand {
 
     @TargetAggregateIdentifier
     private String productId;
+
+    private String productName;
+    private String productNo;
+    private Integer stock;
 }
