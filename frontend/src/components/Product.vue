@@ -19,7 +19,6 @@
         <v-card-text>
             <String label="ProductId" v-model="value.productId" :editMode="editMode"/>
             <String label="ProductName" v-model="value.productName" :editMode="editMode"/>
-            <String label="ProductNo" v-model="value.productNo" :editMode="editMode"/>
             <Number label="Stock" v-model="value.stock" :editMode="editMode"/>
 
             <EventViewer
@@ -45,7 +44,7 @@
                     @click="save"
                     v-else
             >
-                Save
+                Register
             </v-btn>
             <v-btn
                     color="deep-purple lighten-2"

@@ -53,6 +53,25 @@ public class ProductController {
         return commandGateway.send(decreaseStockCommand);
     }
 
+    @RequestMapping(value = "/products", method = RequestMethod.POST)
+    public CompletableFuture register(
+        @RequestBody RegisterCommand registerCommand
+    ) throws Exception {
+        System.out.println("##### /product/register  called #####");
+
+        // send command
+        return commandGateway
+            .send(registerCommand)
+            .thenApply(id -> {
+                ProductAggregate resource = new ProductAggregate();
+                BeanUtils.copyProperties(registerCommand, resource);
+
+                resource.setProductId((String) id);
+
+                return new ResponseEntity<>(hateoas(resource), HttpStatus.OK);
+            });
+    }
+
     @Autowired
     EventStore eventStore;
 

@@ -2,13 +2,10 @@
 
     <v-card outlined>
         <v-card-title>
-            DecreaseStock
+            Register
         </v-card-title>
 
         <v-card-text>
-            <String label="ProductName" v-model="value.productName" :editMode="editMode"/>
-            <String label="ProductNo" v-model="value.productNo" :editMode="editMode"/>
-            <Number label="Qty" v-model="value.qty" :editMode="editMode"/>
         </v-card-text>
 
         <v-card-actions>
@@ -16,9 +13,9 @@
             <v-btn
                     color="deep-purple lighten-2"
                     text
-                    @click="decreaseStock"
+                    @click="register"
             >
-                DecreaseStock
+                Register
             </v-btn>
             
             <v-btn
@@ -36,7 +33,7 @@
 <script>
    
     export default {
-        name: 'DecreaseStockCommand',
+        name: 'RegisterCommand',
         components:{},
         props: {},
         data: () => ({
@@ -44,15 +41,12 @@
             value: {},
         }),
         created() {
-            this.value.productName = '';
-            this.value.productNo = '';
-            this.value.qty = 0;
         },
         watch: {
         },
         methods: {
-            decreaseStock() {
-                this.$emit('decreaseStock', this.value);
+            register() {
+                this.$emit('register', this.value);
             },
             close() {
                 this.$emit('closeDialog');

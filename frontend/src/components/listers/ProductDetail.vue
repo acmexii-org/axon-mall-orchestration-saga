@@ -12,9 +12,6 @@
                 <String label="ProductName" v-model="item.productName" :editMode="editMode" @change="change" />
             </div>
             <div>
-                <String label="ProductNo" v-model="item.productNo" :editMode="editMode" @change="change" />
-            </div>
-            <div>
                 <Number label="Stock" v-model="item.stock" :editMode="editMode" @change="change" />
             </div>
         </v-card-text>

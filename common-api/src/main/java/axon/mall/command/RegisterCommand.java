@@ -7,12 +7,9 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 @ToString
 @Data
-public class DecreaseStockCommand {
+public class RegisterCommand {
 
-    @TargetAggregateIdentifier
-    private String productId;
-
+    private String productId; // Please comment here if you want user to enter the id directly
     private String productName;
-    private String productNo;
-    private Integer qty;
+    private Integer stock;
 }

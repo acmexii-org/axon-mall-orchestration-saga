@@ -17,7 +17,5 @@ public class ProductReadModel {
 
     private String productName;
 
-    private String productNo;
-
     private Integer stock;
 }
