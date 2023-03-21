@@ -21,4 +21,16 @@ public class PolicyHandler {
 
     @Autowired
     CommandGateway commandGateway;
+
+    @EventHandler
+    //@DisallowReplay
+    public void wheneverOrderPlaced_DecreaseStock(
+        OrderPlacedEvent orderPlaced
+    ) {
+        System.out.println(orderPlaced.toString());
+
+        DecreaseStockCommand command = new DecreaseStockCommand();
+        //TODO: mapping attributes (anti-corruption)
+        commandGateway.send(command);
+    }
 }
