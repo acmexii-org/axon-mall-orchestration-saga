@@ -31,9 +31,8 @@ public class PolicyHandler {
 
         DecreaseStockCommand command = new DecreaseStockCommand();
         //TODO: mapping attributes (anti-corruption)
-        command.setProductNo(orderPlaced.getProductNo());
-        command.setProductName(orderPlaced.getProductName());
-        command.setStock(orderPlaced.getStock());
+        command.setProductId(orderPlaced.getProductId());
+        command.setQty(orderPlaced.getQty());
         commandGateway.send(command);
     }
 }
