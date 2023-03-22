@@ -33,12 +33,23 @@ public class DeliveryAggregate {
     public DeliveryAggregate() {}
 
     @CommandHandler
+    public DeliveryAggregate(StartDeliveryCommand command) {
+        DeliveryStartedEvent event = new DeliveryStartedEvent();
+        BeanUtils.copyProperties(command, event);
+
+        //TODO: check key generation is properly done
+        if (event.getDeliveryId() == null) event.setDeliveryId(createUUID());
+
+        apply(event);
+    }
+
+/*     @CommandHandler
     public void handle(StartDeliveryCommand command) {
         DeliveryStartedEvent event = new DeliveryStartedEvent();
         BeanUtils.copyProperties(command, event);
 
         apply(event);
-    }
+    } */
 
     private String createUUID() {
         return UUID.randomUUID().toString();
@@ -46,7 +57,9 @@ public class DeliveryAggregate {
 
     @EventSourcingHandler
     public void on(DeliveryStartedEvent event) {
+        BeanUtils.copyProperties(event, this);
         //TODO: business logic here
+        setStatus("DeliveryStarted");
 
     }
 }

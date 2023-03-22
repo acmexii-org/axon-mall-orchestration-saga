@@ -31,6 +31,12 @@ public class PolicyHandler {
 
         StartDeliveryCommand command = new StartDeliveryCommand();
         //TODO: mapping attributes (anti-corruption)
+        command.setUserId(orderPlaced.getUserId());
+        command.setAddress("SEOUL AMSADONG");
+        command.setOrderId(orderPlaced.getOrderId());
+        command.setProductId(orderPlaced.getProductId());
+        command.setQty(orderPlaced.getQty());
+        // command.setStatus("DeliveryStarted");    EventSourcingHandler에서 Status 설정
         commandGateway.send(command);
     }
 }

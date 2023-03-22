@@ -38,19 +38,25 @@ public class DeliveryController {
     }
 
     @RequestMapping(
-        value = "/deliveries/{id}/",
+        value = "/deliveries",
         method = RequestMethod.POST,
         produces = "application/json;charset=UTF-8"
     )
     public CompletableFuture startDelivery(
-        @PathVariable("id") String id,
         @RequestBody StartDeliveryCommand startDeliveryCommand
     ) throws Exception {
         System.out.println("##### /delivery/startDelivery  called #####");
 
-        startDeliveryCommand.setDeliveryId(id);
-        // send command
-        return commandGateway.send(startDeliveryCommand);
+       // send command
+       return commandGateway
+       .send(startDeliveryCommand)
+       .thenApply(id -> {
+           DeliveryAggregate resource = new DeliveryAggregate();
+           BeanUtils.copyProperties(startDeliveryCommand, resource);
+           resource.setDeliveryId((String) id);
+
+           return new ResponseEntity<>(hateoas(resource), HttpStatus.OK);
+       });
     }
 
     @Autowired

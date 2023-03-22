@@ -63,6 +63,6 @@ public class OrderAggregate {
     @EventSourcingHandler
     public void on(OrderCompletedEvent event) {
         //TODO: business logic here
-
+        setStatus("OrderCompleted");
     }
 }

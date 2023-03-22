@@ -14,16 +14,10 @@ public class DeliveryReadModel {
 
     @Id
     private String deliveryId;
-
     private String userId;
-
     private String address;
-
     private String orderId;
-
     private String productId;
-
     private Integer qty;
-
     private String status;
 }

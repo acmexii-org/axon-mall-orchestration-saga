@@ -37,25 +37,26 @@ public class DeliveryListCQRSHandlerReusingAggregate {
     }
 
     @EventHandler
-    public void whenDeliveryStarted_then_UPDATE(DeliveryStartedEvent event)
+    public void whenDeliveryStarted_then_CREATE(DeliveryStartedEvent event)
         throws Exception {
-        repository
-            .findById(event.getDeliveryId())
-            .ifPresent(entity -> {
+        // repository
+            // .findById(event.getDeliveryId())
+            // .ifPresent(entity -> {
+                DeliveryReadModel entity = new DeliveryReadModel();
                 DeliveryAggregate aggregate = new DeliveryAggregate();
 
-                BeanUtils.copyProperties(entity, aggregate);
                 aggregate.on(event);
                 BeanUtils.copyProperties(aggregate, entity);
 
                 repository.save(entity);
 
-                queryUpdateEmitter.emit(
-                    DeliveryListSingleQuery.class,
-                    query ->
-                        query.getDeliveryId().equals(event.getDeliveryId()),
-                    entity
-                );
-            });
+                // queryUpdateEmitter.emit(
+                //     DeliveryListSingleQuery.class,
+                //     query ->
+                //         query.getDeliveryId().equals(event.getDeliveryId()),
+                //     entity
+                // );
+                queryUpdateEmitter.emit(DeliveryListQuery.class, query -> true, entity);
+            // });
     }
 }

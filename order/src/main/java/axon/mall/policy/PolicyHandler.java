@@ -31,6 +31,7 @@ public class PolicyHandler {
 
         UpdateStatusCommand command = new UpdateStatusCommand();
         //TODO: mapping attributes (anti-corruption)
+        command.setOrderId(deliveryStarted.getOrderId());
         commandGateway.send(command);
     }
 }
